@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sevenakini_shared/domain/auth_state.dart';
-import 'package:sevenakini_shared/domain/user.dart';
-import 'package:sevenakini_shared/infrastructure/auth_repository.dart';
+import 'package:sevenakini_shared/features/auth/domain/auth_state.dart';
+import 'package:sevenakini_shared/features/auth/domain/user.dart';
+import 'package:sevenakini_shared/features/auth/infrastructure/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as sp;
 
 class AuthStateNotifier extends StateNotifier<AuthState>

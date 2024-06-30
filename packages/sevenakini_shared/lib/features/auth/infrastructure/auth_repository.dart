@@ -1,4 +1,4 @@
-import 'package:sevenakini_shared/domain/user.dart';
+import 'package:sevenakini_shared/features/auth/domain/user.dart';
 
 abstract class AuthRepository {
   Future<void> signUp(

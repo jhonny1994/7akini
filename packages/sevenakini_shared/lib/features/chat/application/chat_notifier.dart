@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sevenakini_shared/domain/app_response.dart';
-import 'package:sevenakini_shared/domain/message.dart';
-import 'package:sevenakini_shared/infrastructure/chat_repository.dart';
+import 'package:sevenakini_shared/features/chat/domain/message.dart';
+import 'package:sevenakini_shared/features/chat/infrastructure/chat_repository.dart';
+import 'package:sevenakini_shared/features/core/domain/app_response.dart';
+
 import 'package:supabase_flutter/supabase_flutter.dart' as sp;
 
 class ChatStateNotifier extends StateNotifier<List<Message>>
