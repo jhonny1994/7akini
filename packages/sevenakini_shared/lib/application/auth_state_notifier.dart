@@ -61,7 +61,6 @@ class AuthStateNotifier extends StateNotifier<AuthState>
           message: 'Failed to sign up',
         );
       }
-      print(response.user);
       state = const AuthState.authenticated();
     } on sp.AuthException catch (e) {
       state = AuthState.unauthenticated(message: e.message);

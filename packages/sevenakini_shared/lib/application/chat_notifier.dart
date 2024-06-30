@@ -9,12 +9,10 @@ class ChatStateNotifier extends StateNotifier<List<Message>>
   ChatStateNotifier(this._supabase) : super([]);
   final sp.SupabaseClient _supabase;
 
+  // Helper method to find existing chat
+
   @override
-  @override
-  Future<AppResponse> sendMessage(
-    Message message,
-    String contactId,
-  ) async {
+  Future<AppResponse> addMessage(Message message) async {
     try {
       await _supabase.from('messages').insert(
             message.toJson(),
@@ -27,8 +25,18 @@ class ChatStateNotifier extends StateNotifier<List<Message>>
   }
 
   @override
-  Stream<List<Message>> getMessages(String userId, String contactId) {
-    // TODO: implement getMessages
-    throw UnimplementedError();
+  Stream<List<Message>> getChatMessages(String chatId) {
+    try {
+      return _supabase
+          .from('messages')
+          .stream(primaryKey: ['id'])
+          .eq('chat_id', chatId)
+          .order('created_at', ascending: true)
+          .map(
+            (event) => event.map(Message.fromJson).toList(),
+          );
+    } on sp.AuthException catch (e) {
+      return Stream.error(e.message);
+    }
   }
 }
