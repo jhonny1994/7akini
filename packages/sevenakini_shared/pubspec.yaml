@@ -1,16 +1,28 @@
 name: sevenakini_shared
-description: "A new Flutter package project."
+description: "Shared library for 7akini"
 version: 0.0.1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
-  flutter: ">=1.17.0"
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: '>=3.0.0 <4.0.0'
 
 dependencies:
+  device_preview: ^1.2.0
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.5.1
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.9.0
+  riverpod_annotation: ^2.3.5
+  supabase_flutter: ^2.5.6
 
 dev_dependencies:
+  build_runner: ^2.4.11
+  custom_lint: ^0.6.4
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  freezed: ^2.5.2
+  json_serializable: ^6.8.0
+  riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.3.10
+  very_good_analysis: ^6.0.0
