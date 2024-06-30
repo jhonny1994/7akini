@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:sevenakini_shared/features/core/utils/constants.dart';
 import 'package:sevenakini_shared/features/core/utils/extensions.dart';
 
-class LoadingScreen extends StatelessWidget {
-  const LoadingScreen({super.key});
+class EmptyScreen extends StatelessWidget {
+  const EmptyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +18,10 @@ class LoadingScreen extends StatelessWidget {
             SizedBox(
               height: context.width - kDefaultPadding.horizontal,
               width: context.width - kDefaultPadding.horizontal,
-              child: SvgPicture.asset('assets/loading.svg'),
+              child: SvgPicture.asset('assets/empty.svg'),
             ),
             const Spacer(),
-            const CircularProgressIndicator.adaptive(),
+            const Text('This chat is empty'),
             const Spacer(flex: 2),
           ],
         ),
