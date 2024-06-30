@@ -1,0 +1,4 @@
+# melos_managed_dependency_overrides: sevenakini_shared
+dependency_overrides:
+  sevenakini_shared:
+    path: ..\\..\\packages\\sevenakini_shared
