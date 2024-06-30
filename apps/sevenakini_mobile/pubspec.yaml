@@ -1,5 +1,5 @@
 name: sevenakini_mobile
-description: "A new Flutter project."
+description: "Sevenakini Mobile"
 publish_to: "none"
 version: 0.1.0
 
@@ -31,3 +31,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - .env
