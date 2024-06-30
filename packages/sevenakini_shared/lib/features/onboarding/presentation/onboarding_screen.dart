@@ -1,47 +1,62 @@
 import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:sevenakini_shared/features/core/utils/constants.dart';
 import 'package:sevenakini_shared/features/core/utils/extensions.dart';
+import 'package:sevenakini_shared/features/theme/providers/theme_notifier_provider.dart';
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
+  @override
   Widget build(BuildContext context) {
     final pages = [
-      PageData(
+      const PageData(
         image: 'assets/chat.svg',
         title: 'Messaging made easier',
-        bgColor: context.colorScheme.primary,
-        textColor: context.colorScheme.onPrimary,
+        desc:
+            'Experience seamless and efficient messaging with our user-friendly interface.',
       ),
-      PageData(
-        image: 'assets/chat.svg',
+      const PageData(
+        image: 'assets/connect.svg',
         title: 'All your friends in one place',
-        bgColor: context.colorScheme.secondary,
-        textColor: context.colorScheme.onSecondary,
+        desc:
+            'Stay connected with all your friends, family, and colleagues in one convenient app.',
       ),
-      PageData(
-        image: 'assets/chat.svg',
+      const PageData(
+        image: 'assets/safe.svg',
         title: 'Simple. Secure. Reliable.',
-        bgColor: context.colorScheme.primary,
-        textColor: context.colorScheme.onPrimary,
+        desc:
+            'Enjoy peace of mind with our secure and reliable messaging platform.',
       ),
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
+          icon: const Icon(Icons.dark_mode),
+        ),
+      ),
       body: ConcentricPageView(
-        colors: pages.map((p) => p.bgColor).toList(),
-        radius: context.width * 0.1,
-        itemCount: pages.length,
-        scaleFactor: 2,
-        nextButtonBuilder: (context) => Padding(
-          padding: const EdgeInsets.only(left: 3),
-          child: Icon(
-            Icons.navigate_next,
-            size: context.width * 0.08,
-          ),
+        colors: [
+          context.colorScheme.primary,
+          context.colorScheme.secondary,
+          context.colorScheme.tertiary,
+        ],
+        // itemCount: pages.length,
+        nextButtonBuilder: (context) => Icon(
+          Icons.navigate_next,
+          size: context.width * 0.1,
+          color: context.colorScheme.surface,
         ),
         itemBuilder: (index) {
           final page = pages[index % pages.length];
@@ -57,15 +72,13 @@ class OnboardingScreen extends StatelessWidget {
 class PageData {
   const PageData({
     required this.title,
+    required this.desc,
     required this.image,
-    required this.bgColor,
-    required this.textColor,
   });
 
-  final Color bgColor;
   final String image;
-  final Color textColor;
   final String title;
+  final String desc;
 }
 
 class _Page extends StatelessWidget {
@@ -75,27 +88,38 @@ class _Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          padding: kDefaultPadding,
-          margin: kDefaultPadding,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: page.textColor,
+    return Padding(
+      padding: kDefaultPadding,
+      child: Column(
+        children: [
+          const Spacer(),
+          ClipOval(
+            child: Container(
+              color: context.colorScheme.surface,
+              constraints: BoxConstraints(
+                maxHeight: context.width * 0.75,
+                maxWidth: context.width * 0.75,
+              ),
+              padding: EdgeInsets.all(context.width * 0.1),
+              child: SvgPicture.asset(page.image),
+            ),
           ),
-          child: SvgPicture.asset(
-            page.image,
-            height: context.height * 0.1,
-            width: context.height * 0.1,
+          const Gap(kDefaultGap * 2),
+          Text(
+            page.title,
+            textAlign: TextAlign.center,
+            style: context.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        Text(
-          page.title,
-          textAlign: TextAlign.center,
-        ),
-      ],
+          const Gap(kDefaultGap),
+          Text(
+            page.desc,
+            textAlign: TextAlign.center,
+          ),
+          const Spacer(flex: 2),
+        ],
+      ),
     );
   }
 }

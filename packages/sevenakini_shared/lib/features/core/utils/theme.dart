@@ -20,7 +20,6 @@ class AppTheme {
     iconTheme: const IconThemeData(
       color: Color(0xfff1ece4),
     ),
-    scaffoldBackgroundColor: const Color(0xfff1ece4),
   );
   static final darkTheme = ThemeData(
     primaryColor: const Color(0xff2596be),
@@ -38,6 +37,5 @@ class AppTheme {
     iconTheme: const IconThemeData(
       color: Color(0xfff1ece4),
     ),
-    scaffoldBackgroundColor: Colors.black,
   );
 }

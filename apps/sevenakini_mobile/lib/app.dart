@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sevenakini_mobile/features/auth/presentation/auth_screen.dart';
-import 'package:sevenakini_mobile/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:sevenakini_shared/features/core/utils/theme.dart';
+import 'package:sevenakini_shared/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:sevenakini_shared/features/onboarding/providers/onboarding_notifier_provider.dart';
 import 'package:sevenakini_shared/features/theme/providers/theme_notifier_provider.dart';
 
