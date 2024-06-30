@@ -19,7 +19,7 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'id': instance.id,
       'username': instance.username,
       'email': instance.email,
-      'gender': _$GenderEnumMap[instance.gender],
+      'gender': _$GenderEnumMap[instance.gender]!,
       'imageUrl': instance.imageUrl,
     };
 
