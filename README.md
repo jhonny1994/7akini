@@ -1,5 +1,7 @@
 # 7akini
+<p align="center">
 <img src="packages/sevenakini_shared/assets/logo.png" width="100" height="100">
+</p>
 
 7akini is a simple chat app built using Flutter.
 
