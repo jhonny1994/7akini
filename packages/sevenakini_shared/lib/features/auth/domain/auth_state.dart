@@ -6,5 +6,8 @@ part 'auth_state.freezed.dart';
 abstract class AuthState with _$AuthState {
   const factory AuthState.loading() = Loading;
   const factory AuthState.authenticated() = Authenticated;
-  const factory AuthState.unauthenticated({String? message}) = Unauthenticated;
+  const factory AuthState.unauthenticated({
+    String? message,
+    @Default(false) bool? isSignIn,
+  }) = Unauthenticated;
 }
