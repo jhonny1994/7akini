@@ -24,6 +24,7 @@ mixin _$User {
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   Gender get gender => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image_url')
   String? get imageUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +42,7 @@ abstract class $UserCopyWith<$Res> {
       String username,
       String email,
       Gender gender,
-      String? imageUrl});
+      @JsonKey(name: 'image_url') String? imageUrl});
 }
 
 /// @nodoc
@@ -100,7 +101,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String username,
       String email,
       Gender gender,
-      String? imageUrl});
+      @JsonKey(name: 'image_url') String? imageUrl});
 }
 
 /// @nodoc
@@ -152,7 +153,7 @@ class _$UserImpl implements _User {
       required this.username,
       required this.email,
       required this.gender,
-      this.imageUrl});
+      @JsonKey(name: 'image_url') this.imageUrl});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -166,6 +167,7 @@ class _$UserImpl implements _User {
   @override
   final Gender gender;
   @override
+  @JsonKey(name: 'image_url')
   final String? imageUrl;
 
   @override
@@ -212,7 +214,7 @@ abstract class _User implements User {
       required final String username,
       required final String email,
       required final Gender gender,
-      final String? imageUrl}) = _$UserImpl;
+      @JsonKey(name: 'image_url') final String? imageUrl}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -225,6 +227,7 @@ abstract class _User implements User {
   @override
   Gender get gender;
   @override
+  @JsonKey(name: 'image_url')
   String? get imageUrl;
   @override
   @JsonKey(ignore: true)

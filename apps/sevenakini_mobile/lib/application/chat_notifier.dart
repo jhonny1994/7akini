@@ -1,6 +1,63 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sevenakini_shared/sevenakini_shared.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sp;
 
-class ChatNotifier extends StateNotifier<AsyncValue<List<Message>>> {
-  ChatNotifier() : super(const AsyncValue.loading());
+class ChatNotifier {
+  ChatNotifier(
+    this._supabase,
+    this._user,
+  );
+
+  final sp.SupabaseClient _supabase;
+  final User _user;
+
+  Future<String> getChatId(
+    String senderId,
+    String receiverId,
+  ) async {
+    try {
+      final response = await _supabase.rpc<String>(
+        'find_or_create_chat',
+        params: {
+          'sender_id_in': senderId,
+          'receiver_id_in': receiverId,
+        },
+      );
+      return response;
+    } on sp.AuthException {
+      rethrow;
+    }
+  }
+
+  Future<void> sendMessage(
+    String senderId,
+    String receiverId,
+    String content,
+    String chatId,
+  ) async {
+    try {
+      final message = Message(
+        senderId: senderId,
+        receiverId: receiverId,
+        chatId: chatId,
+        content: content,
+        createdAt: DateTime.now(),
+      );
+      await _supabase.from('messages').insert(message.toJson());
+    } on sp.AuthException {
+      rethrow;
+    }
+  }
+
+  Stream<List<Message>> getChat(String chatId) => _supabase
+      .from('messages')
+      .stream(primaryKey: ['id'])
+      .eq('chat_id', chatId)
+      .map(
+        (e) => e.map(Message.fromJson).toList(),
+      );
+  Stream<List<User>> getUsers() => _supabase
+      .from('users')
+      .stream(primaryKey: ['id'])
+      .neq('id', _user.id)
+      .map((e) => e.map(User.fromJson).toList());
 }

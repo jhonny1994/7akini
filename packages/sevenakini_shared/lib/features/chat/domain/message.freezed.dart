@@ -20,10 +20,16 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Message {
-  String get id => throw _privateConstructorUsedError;
-  String get chatId => throw _privateConstructorUsedError;
+  @JsonKey(includeToJson: false)
+  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'sender_id')
   String get senderId => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
+  @JsonKey(name: 'receiver_id')
+  String get receiverId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'chat_id')
+  String get chatId => throw _privateConstructorUsedError;
+  String get content => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,11 +43,12 @@ abstract class $MessageCopyWith<$Res> {
       _$MessageCopyWithImpl<$Res, Message>;
   @useResult
   $Res call(
-      {String id,
-      String chatId,
-      String senderId,
-      String message,
-      DateTime createdAt});
+      {@JsonKey(includeToJson: false) String? id,
+      @JsonKey(name: 'sender_id') String senderId,
+      @JsonKey(name: 'receiver_id') String receiverId,
+      @JsonKey(name: 'chat_id') String chatId,
+      String content,
+      @JsonKey(name: 'created_at') DateTime createdAt});
 }
 
 /// @nodoc
@@ -57,28 +64,33 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? chatId = null,
+    Object? id = freezed,
     Object? senderId = null,
-    Object? message = null,
+    Object? receiverId = null,
+    Object? chatId = null,
+    Object? content = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderId: null == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverId: null == receiverId
+          ? _value.receiverId
+          : receiverId // ignore: cast_nullable_to_non_nullable
               as String,
       chatId: null == chatId
           ? _value.chatId
           : chatId // ignore: cast_nullable_to_non_nullable
               as String,
-      senderId: null == senderId
-          ? _value.senderId
-          : senderId // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -96,11 +108,12 @@ abstract class _$$MessageImplCopyWith<$Res> implements $MessageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String id,
-      String chatId,
-      String senderId,
-      String message,
-      DateTime createdAt});
+      {@JsonKey(includeToJson: false) String? id,
+      @JsonKey(name: 'sender_id') String senderId,
+      @JsonKey(name: 'receiver_id') String receiverId,
+      @JsonKey(name: 'chat_id') String chatId,
+      String content,
+      @JsonKey(name: 'created_at') DateTime createdAt});
 }
 
 /// @nodoc
@@ -114,28 +127,33 @@ class __$$MessageImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? chatId = null,
+    Object? id = freezed,
     Object? senderId = null,
-    Object? message = null,
+    Object? receiverId = null,
+    Object? chatId = null,
+    Object? content = null,
     Object? createdAt = null,
   }) {
     return _then(_$MessageImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderId: null == senderId
+          ? _value.senderId
+          : senderId // ignore: cast_nullable_to_non_nullable
+              as String,
+      receiverId: null == receiverId
+          ? _value.receiverId
+          : receiverId // ignore: cast_nullable_to_non_nullable
               as String,
       chatId: null == chatId
           ? _value.chatId
           : chatId // ignore: cast_nullable_to_non_nullable
               as String,
-      senderId: null == senderId
-          ? _value.senderId
-          : senderId // ignore: cast_nullable_to_non_nullable
-              as String,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
+      content: null == content
+          ? _value.content
+          : content // ignore: cast_nullable_to_non_nullable
               as String,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -148,30 +166,38 @@ class __$$MessageImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$MessageImpl implements _Message {
-  _$MessageImpl(
-      {required this.id,
-      required this.chatId,
-      required this.senderId,
-      required this.message,
-      required this.createdAt});
+  const _$MessageImpl(
+      {@JsonKey(includeToJson: false) this.id,
+      @JsonKey(name: 'sender_id') required this.senderId,
+      @JsonKey(name: 'receiver_id') required this.receiverId,
+      @JsonKey(name: 'chat_id') required this.chatId,
+      required this.content,
+      @JsonKey(name: 'created_at') required this.createdAt});
 
   factory _$MessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$MessageImplFromJson(json);
 
   @override
-  final String id;
+  @JsonKey(includeToJson: false)
+  final String? id;
   @override
-  final String chatId;
-  @override
+  @JsonKey(name: 'sender_id')
   final String senderId;
   @override
-  final String message;
+  @JsonKey(name: 'receiver_id')
+  final String receiverId;
   @override
+  @JsonKey(name: 'chat_id')
+  final String chatId;
+  @override
+  final String content;
+  @override
+  @JsonKey(name: 'created_at')
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Message(id: $id, chatId: $chatId, senderId: $senderId, message: $message, createdAt: $createdAt)';
+    return 'Message(id: $id, senderId: $senderId, receiverId: $receiverId, chatId: $chatId, content: $content, createdAt: $createdAt)';
   }
 
   @override
@@ -180,18 +206,20 @@ class _$MessageImpl implements _Message {
         (other.runtimeType == runtimeType &&
             other is _$MessageImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.chatId, chatId) || other.chatId == chatId) &&
             (identical(other.senderId, senderId) ||
                 other.senderId == senderId) &&
-            (identical(other.message, message) || other.message == message) &&
+            (identical(other.receiverId, receiverId) ||
+                other.receiverId == receiverId) &&
+            (identical(other.chatId, chatId) || other.chatId == chatId) &&
+            (identical(other.content, content) || other.content == content) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, chatId, senderId, message, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, senderId, receiverId, chatId, content, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -208,24 +236,33 @@ class _$MessageImpl implements _Message {
 }
 
 abstract class _Message implements Message {
-  factory _Message(
-      {required final String id,
-      required final String chatId,
-      required final String senderId,
-      required final String message,
-      required final DateTime createdAt}) = _$MessageImpl;
+  const factory _Message(
+          {@JsonKey(includeToJson: false) final String? id,
+          @JsonKey(name: 'sender_id') required final String senderId,
+          @JsonKey(name: 'receiver_id') required final String receiverId,
+          @JsonKey(name: 'chat_id') required final String chatId,
+          required final String content,
+          @JsonKey(name: 'created_at') required final DateTime createdAt}) =
+      _$MessageImpl;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$MessageImpl.fromJson;
 
   @override
-  String get id;
+  @JsonKey(includeToJson: false)
+  String? get id;
   @override
-  String get chatId;
-  @override
+  @JsonKey(name: 'sender_id')
   String get senderId;
   @override
-  String get message;
+  @JsonKey(name: 'receiver_id')
+  String get receiverId;
   @override
+  @JsonKey(name: 'chat_id')
+  String get chatId;
+  @override
+  String get content;
+  @override
+  @JsonKey(name: 'created_at')
   DateTime get createdAt;
   @override
   @JsonKey(ignore: true)

@@ -11,7 +11,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       username: json['username'] as String,
       email: json['email'] as String,
       gender: $enumDecode(_$GenderEnumMap, json['gender']),
-      imageUrl: json['imageUrl'] as String?,
+      imageUrl: json['image_url'] as String?,
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -19,8 +19,8 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'id': instance.id,
       'username': instance.username,
       'email': instance.email,
-      'gender': _$GenderEnumMap[instance.gender],
-      'imageUrl': instance.imageUrl,
+      'gender': _$GenderEnumMap[instance.gender]!,
+      'image_url': instance.imageUrl,
     };
 
 const _$GenderEnumMap = {

@@ -8,18 +8,19 @@ part of 'message.dart';
 
 _$MessageImpl _$$MessageImplFromJson(Map<String, dynamic> json) =>
     _$MessageImpl(
-      id: json['id'] as String,
-      chatId: json['chatId'] as String,
-      senderId: json['senderId'] as String,
-      message: json['message'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
+      id: json['id'] as String?,
+      senderId: json['sender_id'] as String,
+      receiverId: json['receiver_id'] as String,
+      chatId: json['chat_id'] as String,
+      content: json['content'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$MessageImplToJson(_$MessageImpl instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'chatId': instance.chatId,
-      'senderId': instance.senderId,
-      'message': instance.message,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'sender_id': instance.senderId,
+      'receiver_id': instance.receiverId,
+      'chat_id': instance.chatId,
+      'content': instance.content,
+      'created_at': instance.createdAt.toIso8601String(),
     };

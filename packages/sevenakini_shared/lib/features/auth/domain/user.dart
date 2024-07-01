@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
@@ -12,7 +14,7 @@ class User with _$User {
     required String username,
     required String email,
     required Gender gender,
-    String? imageUrl,
+    @JsonKey(name: 'image_url') String? imageUrl,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

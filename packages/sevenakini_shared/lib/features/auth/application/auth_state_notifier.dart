@@ -95,6 +95,9 @@ class AuthStateNotifier extends StateNotifier<AuthState>
     } on sp.AuthException catch (e) {
       state = AuthState.error(message: e.message);
       rethrow;
+    } catch (e) {
+      state = AuthState.error(message: e.toString());
+      rethrow;
     }
   }
 
