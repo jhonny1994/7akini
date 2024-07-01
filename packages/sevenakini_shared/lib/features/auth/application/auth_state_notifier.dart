@@ -6,7 +6,12 @@ import 'package:supabase_flutter/supabase_flutter.dart' as sp;
 
 class AuthStateNotifier extends StateNotifier<AuthState>
     implements AuthRepository {
-  AuthStateNotifier(this._supabase) : super(const AuthState.loading());
+  AuthStateNotifier(this._supabase)
+      : super(
+          const AuthState.loading(),
+        ) {
+    checkAndUpdateState();
+  }
 
   final sp.SupabaseClient _supabase;
 
@@ -22,21 +27,27 @@ class AuthStateNotifier extends StateNotifier<AuthState>
         password: password,
       );
       if (response.user == null) {
-        state = const AuthState.unauthenticated(
+        state = const AuthState.error(
           message: 'Failed to sign in',
         );
       }
       state = const AuthState.authenticated();
     } on sp.AuthException catch (e) {
-      state = AuthState.unauthenticated(message: e.message);
+      state = AuthState.error(message: e.message);
+      rethrow;
     }
   }
 
   @override
   Future<void> signOut() async {
     state = const AuthState.loading();
-    await _supabase.auth.signOut();
-    state = const AuthState.unauthenticated();
+    try {
+      await _supabase.auth.signOut();
+      state = const AuthState.unauthenticated();
+    } on sp.AuthException catch (e) {
+      state = AuthState.error(message: e.message);
+      rethrow;
+    }
   }
 
   @override
@@ -56,16 +67,35 @@ class AuthStateNotifier extends StateNotifier<AuthState>
           'gender': gender.name,
         },
       );
+
       if (response.user == null) {
-        state = const AuthState.unauthenticated(
+        state = const AuthState.error(
           message: 'Failed to sign up',
         );
       }
+      //TODO: move this to the backend
+      await _supabase.rpc<void>(
+        'signup_user',
+        params: {
+          'id': response.user!.id,
+          'username': username,
+          'email': email,
+          'gender': gender.name,
+        },
+      );
       state = const AuthState.authenticated();
     } on sp.AuthException catch (e) {
-      state = AuthState.unauthenticated(message: e.message);
+      state = AuthState.error(message: e.message);
+      rethrow;
     }
   }
 
   sp.User get user => _supabase.auth.currentUser!;
+
+  @override
+  void checkAndUpdateState({bool isSignIn = true}) {
+    state = _supabase.auth.currentUser != null
+        ? const AuthState.authenticated()
+        : AuthState.unauthenticated(isSignIn: isSignIn);
+  }
 }

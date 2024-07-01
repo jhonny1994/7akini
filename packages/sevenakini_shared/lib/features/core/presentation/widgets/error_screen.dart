@@ -1,37 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
+import 'package:sevenakini_shared/features/auth/providers/auth_state_notifier_provider.dart';
 import 'package:sevenakini_shared/features/core/utils/constants.dart';
 import 'package:sevenakini_shared/features/core/utils/extensions.dart';
 
-class ErrorScreen extends StatelessWidget {
+class ErrorScreen extends ConsumerWidget {
   const ErrorScreen({
     required this.message,
     super.key,
   });
   final String message;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: Padding(
-        padding: kDefaultPadding,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(flex: 2),
-            SizedBox(
-              height: context.width - kDefaultPadding.horizontal,
-              width: context.width - kDefaultPadding.horizontal,
-              child: SvgPicture.asset('assets/error.svg'),
+      body: SafeArea(
+        child: Padding(
+          padding: kDefaultPadding,
+          child: Center(
+            child: Column(
+              children: [
+                const Spacer(),
+                SizedBox(
+                  height: context.width * 0.75 - kDefaultPadding.horizontal,
+                  width: context.width * 0.75 - kDefaultPadding.horizontal,
+                  child: SvgPicture.asset('assets/error.svg'),
+                ),
+                const Gap(kDefaultGap),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: context.textTheme.titleLarge,
+                ),
+                const Spacer(),
+                FilledButton(
+                  onPressed: () => ref
+                      .read(authStateNotifierProvider.notifier)
+                      .checkAndUpdateState(),
+                  child: const Text('Retry'),
+                ),
+                const Gap(kDefaultGap),
+              ],
             ),
-            const Spacer(),
-            Text(message),
-            const Spacer(),
-            FilledButton(
-              onPressed: () {},
-              child: const Text('Retry'),
-            ),
-            const Spacer(flex: 2),
-          ],
+          ),
         ),
       ),
     );

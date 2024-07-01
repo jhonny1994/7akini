@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:sevenakini_shared/features/core/utils/constants.dart';
 import 'package:sevenakini_shared/features/core/utils/extensions.dart';
 
@@ -16,20 +17,20 @@ class AuthImage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(
-          imagePath,
-          height: isSmallScreen ? 100 : 200,
-          width: isSmallScreen ? 100 : 200,
+        Text(
+          'Welcome to 7akini!',
+          textAlign: TextAlign.center,
+          style: isSmallScreen
+              ? Theme.of(context).textTheme.titleLarge
+              : Theme.of(context).textTheme.headlineLarge,
         ),
-        Padding(
-          padding: kDefaultPadding,
-          child: Text(
-            'Welcome to 7akini!',
-            textAlign: TextAlign.center,
-            style: isSmallScreen
-                ? Theme.of(context).textTheme.titleLarge
-                : Theme.of(context).textTheme.titleMedium,
+        const Gap(kDefaultGap * 2),
+        Container(
+          constraints: BoxConstraints(
+            maxHeight: context.width * 0.5,
+            maxWidth: context.width * 0.5,
           ),
+          child: SvgPicture.asset(imagePath),
         ),
       ],
     );

@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:sevenakini_shared/features/core/utils/constants.dart';
 import 'package:sevenakini_shared/features/core/utils/extensions.dart';
-import 'package:sevenakini_shared/features/theme/providers/theme_notifier_provider.dart';
+import 'package:sevenakini_shared/features/onboarding/providers/onboarding_notifier_provider.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
@@ -39,13 +39,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () => ref.read(themeNotifierProvider.notifier).toggle(),
-          icon: const Icon(Icons.dark_mode),
-        ),
-      ),
       body: ConcentricPageView(
         colors: [
           context.colorScheme.primary,
@@ -64,6 +57,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
             child: _Page(page: page),
           );
         },
+        itemCount: pages.length,
+        onFinish: () => ref.read(onboardingNotifierProvider.notifier).toggle(),
       ),
     );
   }
@@ -116,6 +111,7 @@ class _Page extends StatelessWidget {
           Text(
             page.desc,
             textAlign: TextAlign.center,
+            style: context.textTheme.titleMedium,
           ),
           const Spacer(flex: 2),
         ],

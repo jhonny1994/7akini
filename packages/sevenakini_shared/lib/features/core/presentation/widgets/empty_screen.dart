@@ -9,21 +9,24 @@ class EmptyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: kDefaultPadding,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(flex: 2),
-            SizedBox(
-              height: context.width - kDefaultPadding.horizontal,
-              width: context.width - kDefaultPadding.horizontal,
-              child: SvgPicture.asset('assets/empty.svg'),
+      body: SafeArea(
+        child: Padding(
+          padding: kDefaultPadding,
+          child: Center(
+            child: Column(
+              children: [
+                const Spacer(flex: 2),
+                SizedBox(
+                  height: context.width * 0.75 - kDefaultPadding.horizontal,
+                  width: context.width * 0.75 - kDefaultPadding.horizontal,
+                  child: SvgPicture.asset('assets/empty.svg'),
+                ),
+                const Spacer(),
+                const Text('This chat is empty'),
+                const Spacer(flex: 2),
+              ],
             ),
-            const Spacer(),
-            const Text('This chat is empty'),
-            const Spacer(flex: 2),
-          ],
+          ),
         ),
       ),
     );

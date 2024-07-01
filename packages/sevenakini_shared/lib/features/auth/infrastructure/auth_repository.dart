@@ -14,4 +14,6 @@ abstract class AuthRepository {
   );
 
   Future<void> signOut();
+
+  void checkAndUpdateState();
 }
