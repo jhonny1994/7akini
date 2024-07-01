@@ -22,7 +22,10 @@ class EmptyScreen extends StatelessWidget {
                   child: SvgPicture.asset('assets/empty.svg'),
                 ),
                 const Spacer(),
-                const Text('This chat is empty'),
+                Text(
+                  'This chat is empty',
+                  style: context.textTheme.titleLarge,
+                ),
                 const Spacer(flex: 2),
               ],
             ),

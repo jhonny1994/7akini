@@ -65,6 +65,10 @@ class AuthStateNotifier extends StateNotifier<AuthState>
         data: {
           'username': username,
           'gender': gender.name,
+          'image_url': (gender == Gender.male
+                  ? 'https://avatar.iran.liara.run/public/boy?username='
+                  : 'https://avatar.iran.liara.run/public/girl?username=') +
+              username,
         },
       );
 
@@ -81,6 +85,10 @@ class AuthStateNotifier extends StateNotifier<AuthState>
           'username': username,
           'email': email,
           'gender': gender.name,
+          'image_url': (gender == Gender.male
+                  ? 'https://avatar.iran.liara.run/public/boy?username='
+                  : 'https://avatar.iran.liara.run/public/girl?username=') +
+              username,
         },
       );
       state = const AuthState.authenticated();
@@ -90,7 +98,19 @@ class AuthStateNotifier extends StateNotifier<AuthState>
     }
   }
 
-  sp.User get user => _supabase.auth.currentUser!;
+  User get user => User(
+        id: _supabase.auth.currentUser!.id,
+        username:
+            _supabase.auth.currentUser!.userMetadata!['username'] as String,
+        email: _supabase.auth.currentUser!.email!,
+        gender: Gender.values.firstWhere(
+          (element) =>
+              element.name ==
+              _supabase.auth.currentUser!.userMetadata!['gender'] as String,
+        ),
+        imageUrl:
+            _supabase.auth.currentUser!.userMetadata!['image_url'] as String,
+      );
 
   @override
   void checkAndUpdateState({bool isSignIn = true}) {

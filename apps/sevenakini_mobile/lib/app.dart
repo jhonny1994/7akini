@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sevenakini_mobile/features/chat/presentation/home_screen.dart';
+import 'package:sevenakini_mobile/presentation/home_screen.dart';
 import 'package:sevenakini_shared/sevenakini_shared.dart';
 
 class Sevenakini extends ConsumerWidget {
@@ -12,7 +12,6 @@ class Sevenakini extends ConsumerWidget {
     final isDarkMode = ref.watch(themeNotifierProvider);
     final isBoarded = ref.watch(onboardingNotifierProvider);
     final auth = ref.watch(authStateNotifierProvider);
-
     SystemChrome.setSystemUIOverlayStyle(
       !isDarkMode
           ? SystemUiOverlayStyle.dark.copyWith(

@@ -1,0 +1,55 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:sevenakini_mobile/domain/message.dart' as ms;
+import 'package:sevenakini_shared/sevenakini_shared.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
+class MessageBubble extends StatelessWidget {
+  const MessageBubble({
+    required this.message,
+    required this.user,
+    super.key,
+  });
+
+  final ms.Message message;
+  final User? user;
+
+  @override
+  Widget build(BuildContext context) {
+    var chatContents = <Widget>[
+      CircleAvatar(
+        child: message.isMine
+            ? CachedNetworkImage(imageUrl: user!.imageUrl!)
+            : Text(user!.username.substring(0, 2)),
+      ),
+      const Gap(kDefaultGap),
+      Flexible(
+        child: Container(
+          padding: kDefaultPadding,
+          decoration: BoxDecoration(
+            color:
+                message.isMine ? context.colorScheme.primary : Colors.grey[300],
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(message.content),
+        ),
+      ),
+      const Gap(kDefaultGap),
+      Text(
+        timeago.format(message.createdAt, locale: 'en_short'),
+      ),
+    ];
+    if (message.isMine) {
+      chatContents = chatContents.reversed.toList();
+    }
+    return Padding(
+      padding: kDefaultPadding,
+      child: Row(
+        mainAxisAlignment:
+            message.isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: chatContents,
+      ),
+    );
+  }
+}
