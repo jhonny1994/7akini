@@ -1,0 +1,57 @@
+name: Flutter CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Set up environment variables
+        run: |
+          echo "ANDROID_API_KEY=${{ secrets.ANDROID_API_KEY }}" >> $GITHUB_ENV
+          echo "ANDROID_APP_ID=${{ secrets.ANDROID_APP_ID }}" >> $GITHUB_ENV
+          echo "ANDROID_MESSAGING_SENDER_ID=${{ secrets.ANDROID_MESSAGING_SENDER_ID }}" >> $GITHUB_ENV
+          echo "ANDROID_PROJECT_ID=${{ secrets.ANDROID_PROJECT_ID }}" >> $GITHUB_ENV
+          echo "ANDROID_STORAGE_BUCKET=${{ secrets.ANDROID_STORAGE_BUCKET }}" >> $GITHUB_ENV
+
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          VERSION=$(grep -o 'version:.*' pubspec.yaml | awk '{print $2}')
+          echo "version=${VERSION//\'/}" >> $GITHUB_ENV
+
+      - name: Build Android APK
+        uses: cedvdb/action-flutter-build-android@v1
+        with:
+          keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
+          keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
+
+      - name: Archive APK
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.version }}
+          files: build/app/outputs/flutter-apk/app-release.apk
+          token: "${{ secrets.ACTIONS_TOKEN }}"
+          fail_on_unmatched_files: true
+          make_latest: true

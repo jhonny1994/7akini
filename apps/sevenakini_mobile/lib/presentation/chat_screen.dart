@@ -20,12 +20,13 @@ class ChatScreen extends ConsumerStatefulWidget {
 
 class _ChatScreenState extends ConsumerState<ChatScreen> {
   final contentController = TextEditingController();
-
+  final formkey = GlobalKey<FormState>();
   final ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     final messagesStream = ref.watch(messagesStreamProvider(widget.chatId));
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -51,6 +52,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         child: messagesStream.when(
           data: (messages) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
+              MediaQuery.of(context).viewInsets.bottom;
               scrollToBottom();
             });
             return Padding(
@@ -84,38 +86,48 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     right: 0,
                     child: ColoredBox(
                       color: context.colorScheme.surface,
-                      child: TextFormField(
-                        controller: contentController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
-                          }
-                          return null;
-                        },
-                        maxLines: null,
-                        keyboardType: TextInputType.text,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          suffixIcon: InkWell(
-                            onTap: () => ref
-                                .read(chatNotifierProvider)
-                                .sendMessage(
-                                  ref
-                                      .read(authStateNotifierProvider.notifier)
-                                      .user
-                                      .id,
-                                  widget.user.id,
-                                  contentController.text.trim(),
-                                  widget.chatId,
-                                )
-                                .whenComplete(contentController.clear),
-                            child: const Icon(Iconsax.send_1),
+                      child: Form(
+                        key: formkey,
+                        child: TextFormField(
+                          controller: contentController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return null;
+                            }
+                            return null;
+                          },
+                          maxLines: null,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            suffixIcon: InkWell(
+                              onTap: () async {
+                                if (formkey.currentState?.validate() ?? false) {
+                                  await ref
+                                      .read(chatNotifierProvider)
+                                      .sendMessage(
+                                        ref
+                                            .read(
+                                              authStateNotifierProvider
+                                                  .notifier,
+                                            )
+                                            .user
+                                            .id,
+                                        widget.user.id,
+                                        contentController.text.trim(),
+                                        widget.chatId,
+                                      )
+                                      .whenComplete(contentController.clear);
+                                }
+                              },
+                              child: const Icon(Iconsax.send_1),
+                            ),
+                            fillColor:
+                                context.colorScheme.onSurface.withOpacity(0.05),
+                            filled: true,
+                            hintText: 'Type a message...',
+                            border: const OutlineInputBorder(),
                           ),
-                          fillColor:
-                              context.colorScheme.onSurface.withOpacity(0.05),
-                          filled: true,
-                          hintText: 'Type a message...',
-                          border: const OutlineInputBorder(),
                         ),
                       ),
                     ),
