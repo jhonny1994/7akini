@@ -1,14 +1,10 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:sevenakini_shared/features/auth/presentation/widgets/auth_image.dart';
-import 'package:sevenakini_shared/features/auth/providers/auth_state_notifier_provider.dart';
-import 'package:sevenakini_shared/features/core/utils/constants.dart';
-import 'package:sevenakini_shared/features/core/utils/extensions.dart';
+import 'package:sevenakini_shared/sevenakini_shared.dart';
 
-class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
+class UserInfoScreen extends StatelessWidget {
+  const UserInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +19,8 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       AuthImage(
-                        imagePath: 'assets/sign-up.svg',
-                        text: 'Sign up to 7akini!',
+                        imagePath: 'assets/user-info.svg',
+                        text: 'Please fill in your details',
                       ),
                       Gap(kDefaultGap * 2),
                       _FormContent(),
@@ -37,8 +33,8 @@ class SignUpScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: AuthImage(
-                          imagePath: 'assets/sign-up.svg',
-                          text: 'Sign up to 7akini!',
+                          imagePath: 'assets/user-info.svg',
+                          text: 'Please fill in your details',
                         ),
                       ),
                       Gap(kDefaultGap * 2),
@@ -63,9 +59,9 @@ class _FormContent extends ConsumerStatefulWidget {
 
 class __FormContentState extends ConsumerState<_FormContent> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isPasswordVisible = false;
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  late Gender gender;
 
   @override
   Widget build(BuildContext context) {
@@ -96,63 +92,82 @@ class __FormContentState extends ConsumerState<_FormContent> {
                 }
 
                 final emailValid = RegExp(
-                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                  r'^[a-z0-9_-]{5,15}$',
                 ).hasMatch(value);
                 if (!emailValid) {
-                  return 'Please enter a valid email';
+                  return 'Please enter a valid username';
                 }
 
                 return null;
               },
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
+              controller: _usernameController,
+              keyboardType: TextInputType.name,
               textInputAction: TextInputAction.next,
               decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                prefixIcon: const Icon(Icons.email_outlined),
+                labelText: 'Username',
+                hintText: 'Enter your username',
+                prefixIcon: const Icon(Icons.person_outlined),
                 border: defaultBorder,
                 enabledBorder: defaultBorder,
               ),
             ),
-            Gap(isSmallScreen ? kDefaultGap * 2 : kDefaultGap * 4),
+            Gap(isSmallScreen ? kDefaultGap : kDefaultGap * 2),
             TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter some text';
                 }
-                final passwordValid =
-                    RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(value);
-                if (!passwordValid) {
-                  return 'Password must be a mix ofletters and numbers.';
+
+                final emailValid = RegExp(
+                  r'^[^\s]+( [^\s]+)+$',
+                ).hasMatch(value);
+                if (!emailValid) {
+                  return 'Please enter a valid name';
+                }
+
+                return null;
+              },
+              controller: _nameController,
+              keyboardType: TextInputType.name,
+              textInputAction: TextInputAction.next,
+              decoration: InputDecoration(
+                labelText: 'Full name',
+                hintText: 'Enter your name',
+                prefixIcon: const Icon(Icons.person_outlined),
+                border: defaultBorder,
+                enabledBorder: defaultBorder,
+              ),
+            ),
+            Gap(isSmallScreen ? kDefaultGap : kDefaultGap * 2),
+            DropdownButtonFormField(
+              items: Gender.values
+                  .map(
+                    (e) => DropdownMenuItem(
+                      value: e,
+                      child: Text(e.name),
+                    ),
+                  )
+                  .toList(),
+              decoration: InputDecoration(
+                border: defaultBorder,
+                enabledBorder: defaultBorder,
+                labelText: 'Gender',
+                hintText: 'Choose your gender',
+                prefixIcon: const Icon(Icons.person_pin_circle_outlined),
+              ),
+              validator: (value) {
+                if (value == null) {
+                  return 'Please choose a gender';
                 }
                 return null;
               },
-              obscureText: !_isPasswordVisible,
-              controller: _passwordController,
-              keyboardType: TextInputType.visiblePassword,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                prefixIcon: const Icon(Icons.lock_outline_rounded),
-                border: defaultBorder,
-                enabledBorder: defaultBorder,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility_off
-                        : Icons.visibility,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
-                ),
-              ),
+              onChanged: (value) {
+                setState(() {
+                  gender = value!;
+                });
+              },
             ),
-            Gap(isSmallScreen ? kDefaultGap * 2 : kDefaultGap * 4),
+            Gap(isSmallScreen ? kDefaultGap : kDefaultGap * 2),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -165,36 +180,21 @@ class __FormContentState extends ConsumerState<_FormContent> {
                   padding:
                       isSmallScreen ? kDefaultPadding : kDefaultPadding * 2,
                   child: const Text(
-                    'Sign up',
+                    'Save',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
-                    await ref.read(authStateNotifierProvider.notifier).signUp(
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim(),
+                    await ref
+                        .read(authStateNotifierProvider.notifier)
+                        .addUserInfo(
+                          fullName: _nameController.text,
+                          username: _usernameController.text,
+                          gender: gender,
                         );
                   }
                 },
-              ),
-            ),
-            const Gap(kDefaultGap * 2),
-            Text.rich(
-              TextSpan(
-                text: 'Already have an account?  ',
-                children: [
-                  TextSpan(
-                    text: 'Sign in',
-                    style: context.textTheme.bodySmall!.copyWith(
-                      color: context.colorScheme.primary,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => ref
-                          .read(authStateNotifierProvider.notifier)
-                          .checkAndUpdateState(),
-                  ),
-                ],
               ),
             ),
           ],

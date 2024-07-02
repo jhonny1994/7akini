@@ -14,6 +14,7 @@ class User with _$User {
     required String username,
     required String email,
     required Gender gender,
+    @JsonKey(name: 'full_name') required String fullName,
     @JsonKey(name: 'image_url') String? imageUrl,
   }) = _User;
 

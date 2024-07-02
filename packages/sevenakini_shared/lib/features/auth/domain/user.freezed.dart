@@ -24,6 +24,8 @@ mixin _$User {
   String get username => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   Gender get gender => throw _privateConstructorUsedError;
+  @JsonKey(name: 'full_name')
+  String get fullName => throw _privateConstructorUsedError;
   @JsonKey(name: 'image_url')
   String? get imageUrl => throw _privateConstructorUsedError;
 
@@ -42,6 +44,7 @@ abstract class $UserCopyWith<$Res> {
       String username,
       String email,
       Gender gender,
+      @JsonKey(name: 'full_name') String fullName,
       @JsonKey(name: 'image_url') String? imageUrl});
 }
 
@@ -62,6 +65,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? username = null,
     Object? email = null,
     Object? gender = null,
+    Object? fullName = null,
     Object? imageUrl = freezed,
   }) {
     return _then(_value.copyWith(
@@ -81,6 +85,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as Gender,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -101,6 +109,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String username,
       String email,
       Gender gender,
+      @JsonKey(name: 'full_name') String fullName,
       @JsonKey(name: 'image_url') String? imageUrl});
 }
 
@@ -118,6 +127,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? username = null,
     Object? email = null,
     Object? gender = null,
+    Object? fullName = null,
     Object? imageUrl = freezed,
   }) {
     return _then(_$UserImpl(
@@ -137,6 +147,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.gender
           : gender // ignore: cast_nullable_to_non_nullable
               as Gender,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
       imageUrl: freezed == imageUrl
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
@@ -153,6 +167,7 @@ class _$UserImpl implements _User {
       required this.username,
       required this.email,
       required this.gender,
+      @JsonKey(name: 'full_name') required this.fullName,
       @JsonKey(name: 'image_url') this.imageUrl});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -167,12 +182,15 @@ class _$UserImpl implements _User {
   @override
   final Gender gender;
   @override
+  @JsonKey(name: 'full_name')
+  final String fullName;
+  @override
   @JsonKey(name: 'image_url')
   final String? imageUrl;
 
   @override
   String toString() {
-    return 'User(id: $id, username: $username, email: $email, gender: $gender, imageUrl: $imageUrl)';
+    return 'User(id: $id, username: $username, email: $email, gender: $gender, fullName: $fullName, imageUrl: $imageUrl)';
   }
 
   @override
@@ -185,6 +203,8 @@ class _$UserImpl implements _User {
                 other.username == username) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl));
   }
@@ -192,7 +212,7 @@ class _$UserImpl implements _User {
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, username, email, gender, imageUrl);
+      Object.hash(runtimeType, id, username, email, gender, fullName, imageUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -214,6 +234,7 @@ abstract class _User implements User {
       required final String username,
       required final String email,
       required final Gender gender,
+      @JsonKey(name: 'full_name') required final String fullName,
       @JsonKey(name: 'image_url') final String? imageUrl}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -226,6 +247,9 @@ abstract class _User implements User {
   String get email;
   @override
   Gender get gender;
+  @override
+  @JsonKey(name: 'full_name')
+  String get fullName;
   @override
   @JsonKey(name: 'image_url')
   String? get imageUrl;

@@ -4,8 +4,11 @@ import 'package:sevenakini_shared/features/core/utils/constants.dart';
 import 'package:sevenakini_shared/features/core/utils/extensions.dart';
 
 class EmptyScreen extends StatelessWidget {
-  const EmptyScreen({super.key});
-
+  const EmptyScreen({
+    super.key,
+    required this.message,
+  });
+  final String message;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +26,7 @@ class EmptyScreen extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  'This chat is empty',
+                  message,
                   style: context.textTheme.titleLarge,
                 ),
                 const Spacer(flex: 2),

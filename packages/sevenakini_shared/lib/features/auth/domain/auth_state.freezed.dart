@@ -21,6 +21,7 @@ mixin _$AuthState {
     required TResult Function() loading,
     required TResult Function(String message) error,
     required TResult Function() authenticated,
+    required TResult Function() userInfo,
     required TResult Function(bool? isSignIn) unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
@@ -29,6 +30,7 @@ mixin _$AuthState {
     TResult? Function()? loading,
     TResult? Function(String message)? error,
     TResult? Function()? authenticated,
+    TResult? Function()? userInfo,
     TResult? Function(bool? isSignIn)? unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
@@ -37,6 +39,7 @@ mixin _$AuthState {
     TResult Function()? loading,
     TResult Function(String message)? error,
     TResult Function()? authenticated,
+    TResult Function()? userInfo,
     TResult Function(bool? isSignIn)? unauthenticated,
     required TResult orElse(),
   }) =>
@@ -46,6 +49,7 @@ mixin _$AuthState {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(Authenticated value) authenticated,
+    required TResult Function(UserInfo value) userInfo,
     required TResult Function(Unauthenticated value) unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
@@ -54,6 +58,7 @@ mixin _$AuthState {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(Authenticated value)? authenticated,
+    TResult? Function(UserInfo value)? userInfo,
     TResult? Function(Unauthenticated value)? unauthenticated,
   }) =>
       throw _privateConstructorUsedError;
@@ -62,6 +67,7 @@ mixin _$AuthState {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(Authenticated value)? authenticated,
+    TResult Function(UserInfo value)? userInfo,
     TResult Function(Unauthenticated value)? unauthenticated,
     required TResult orElse(),
   }) =>
@@ -126,6 +132,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function() loading,
     required TResult Function(String message) error,
     required TResult Function() authenticated,
+    required TResult Function() userInfo,
     required TResult Function(bool? isSignIn) unauthenticated,
   }) {
     return loading();
@@ -137,6 +144,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function()? loading,
     TResult? Function(String message)? error,
     TResult? Function()? authenticated,
+    TResult? Function()? userInfo,
     TResult? Function(bool? isSignIn)? unauthenticated,
   }) {
     return loading?.call();
@@ -148,6 +156,7 @@ class _$LoadingImpl implements Loading {
     TResult Function()? loading,
     TResult Function(String message)? error,
     TResult Function()? authenticated,
+    TResult Function()? userInfo,
     TResult Function(bool? isSignIn)? unauthenticated,
     required TResult orElse(),
   }) {
@@ -163,6 +172,7 @@ class _$LoadingImpl implements Loading {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(Authenticated value) authenticated,
+    required TResult Function(UserInfo value) userInfo,
     required TResult Function(Unauthenticated value) unauthenticated,
   }) {
     return loading(this);
@@ -174,6 +184,7 @@ class _$LoadingImpl implements Loading {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(Authenticated value)? authenticated,
+    TResult? Function(UserInfo value)? userInfo,
     TResult? Function(Unauthenticated value)? unauthenticated,
   }) {
     return loading?.call(this);
@@ -185,6 +196,7 @@ class _$LoadingImpl implements Loading {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(Authenticated value)? authenticated,
+    TResult Function(UserInfo value)? userInfo,
     TResult Function(Unauthenticated value)? unauthenticated,
     required TResult orElse(),
   }) {
@@ -266,6 +278,7 @@ class _$ErrorImpl implements Error {
     required TResult Function() loading,
     required TResult Function(String message) error,
     required TResult Function() authenticated,
+    required TResult Function() userInfo,
     required TResult Function(bool? isSignIn) unauthenticated,
   }) {
     return error(message);
@@ -277,6 +290,7 @@ class _$ErrorImpl implements Error {
     TResult? Function()? loading,
     TResult? Function(String message)? error,
     TResult? Function()? authenticated,
+    TResult? Function()? userInfo,
     TResult? Function(bool? isSignIn)? unauthenticated,
   }) {
     return error?.call(message);
@@ -288,6 +302,7 @@ class _$ErrorImpl implements Error {
     TResult Function()? loading,
     TResult Function(String message)? error,
     TResult Function()? authenticated,
+    TResult Function()? userInfo,
     TResult Function(bool? isSignIn)? unauthenticated,
     required TResult orElse(),
   }) {
@@ -303,6 +318,7 @@ class _$ErrorImpl implements Error {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(Authenticated value) authenticated,
+    required TResult Function(UserInfo value) userInfo,
     required TResult Function(Unauthenticated value) unauthenticated,
   }) {
     return error(this);
@@ -314,6 +330,7 @@ class _$ErrorImpl implements Error {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(Authenticated value)? authenticated,
+    TResult? Function(UserInfo value)? userInfo,
     TResult? Function(Unauthenticated value)? unauthenticated,
   }) {
     return error?.call(this);
@@ -325,6 +342,7 @@ class _$ErrorImpl implements Error {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(Authenticated value)? authenticated,
+    TResult Function(UserInfo value)? userInfo,
     TResult Function(Unauthenticated value)? unauthenticated,
     required TResult orElse(),
   }) {
@@ -385,6 +403,7 @@ class _$AuthenticatedImpl implements Authenticated {
     required TResult Function() loading,
     required TResult Function(String message) error,
     required TResult Function() authenticated,
+    required TResult Function() userInfo,
     required TResult Function(bool? isSignIn) unauthenticated,
   }) {
     return authenticated();
@@ -396,6 +415,7 @@ class _$AuthenticatedImpl implements Authenticated {
     TResult? Function()? loading,
     TResult? Function(String message)? error,
     TResult? Function()? authenticated,
+    TResult? Function()? userInfo,
     TResult? Function(bool? isSignIn)? unauthenticated,
   }) {
     return authenticated?.call();
@@ -407,6 +427,7 @@ class _$AuthenticatedImpl implements Authenticated {
     TResult Function()? loading,
     TResult Function(String message)? error,
     TResult Function()? authenticated,
+    TResult Function()? userInfo,
     TResult Function(bool? isSignIn)? unauthenticated,
     required TResult orElse(),
   }) {
@@ -422,6 +443,7 @@ class _$AuthenticatedImpl implements Authenticated {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(Authenticated value) authenticated,
+    required TResult Function(UserInfo value) userInfo,
     required TResult Function(Unauthenticated value) unauthenticated,
   }) {
     return authenticated(this);
@@ -433,6 +455,7 @@ class _$AuthenticatedImpl implements Authenticated {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(Authenticated value)? authenticated,
+    TResult? Function(UserInfo value)? userInfo,
     TResult? Function(Unauthenticated value)? unauthenticated,
   }) {
     return authenticated?.call(this);
@@ -444,6 +467,7 @@ class _$AuthenticatedImpl implements Authenticated {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(Authenticated value)? authenticated,
+    TResult Function(UserInfo value)? userInfo,
     TResult Function(Unauthenticated value)? unauthenticated,
     required TResult orElse(),
   }) {
@@ -456,6 +480,126 @@ class _$AuthenticatedImpl implements Authenticated {
 
 abstract class Authenticated implements AuthState {
   const factory Authenticated() = _$AuthenticatedImpl;
+}
+
+/// @nodoc
+abstract class _$$UserInfoImplCopyWith<$Res> {
+  factory _$$UserInfoImplCopyWith(
+          _$UserInfoImpl value, $Res Function(_$UserInfoImpl) then) =
+      __$$UserInfoImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$UserInfoImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$UserInfoImpl>
+    implements _$$UserInfoImplCopyWith<$Res> {
+  __$$UserInfoImplCopyWithImpl(
+      _$UserInfoImpl _value, $Res Function(_$UserInfoImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$UserInfoImpl implements UserInfo {
+  const _$UserInfoImpl();
+
+  @override
+  String toString() {
+    return 'AuthState.userInfo()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$UserInfoImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(String message) error,
+    required TResult Function() authenticated,
+    required TResult Function() userInfo,
+    required TResult Function(bool? isSignIn) unauthenticated,
+  }) {
+    return userInfo();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(String message)? error,
+    TResult? Function()? authenticated,
+    TResult? Function()? userInfo,
+    TResult? Function(bool? isSignIn)? unauthenticated,
+  }) {
+    return userInfo?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(String message)? error,
+    TResult Function()? authenticated,
+    TResult Function()? userInfo,
+    TResult Function(bool? isSignIn)? unauthenticated,
+    required TResult orElse(),
+  }) {
+    if (userInfo != null) {
+      return userInfo();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Loading value) loading,
+    required TResult Function(Error value) error,
+    required TResult Function(Authenticated value) authenticated,
+    required TResult Function(UserInfo value) userInfo,
+    required TResult Function(Unauthenticated value) unauthenticated,
+  }) {
+    return userInfo(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(Loading value)? loading,
+    TResult? Function(Error value)? error,
+    TResult? Function(Authenticated value)? authenticated,
+    TResult? Function(UserInfo value)? userInfo,
+    TResult? Function(Unauthenticated value)? unauthenticated,
+  }) {
+    return userInfo?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Loading value)? loading,
+    TResult Function(Error value)? error,
+    TResult Function(Authenticated value)? authenticated,
+    TResult Function(UserInfo value)? userInfo,
+    TResult Function(Unauthenticated value)? unauthenticated,
+    required TResult orElse(),
+  }) {
+    if (userInfo != null) {
+      return userInfo(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UserInfo implements AuthState {
+  const factory UserInfo() = _$UserInfoImpl;
 }
 
 /// @nodoc
@@ -528,6 +672,7 @@ class _$UnauthenticatedImpl implements Unauthenticated {
     required TResult Function() loading,
     required TResult Function(String message) error,
     required TResult Function() authenticated,
+    required TResult Function() userInfo,
     required TResult Function(bool? isSignIn) unauthenticated,
   }) {
     return unauthenticated(isSignIn);
@@ -539,6 +684,7 @@ class _$UnauthenticatedImpl implements Unauthenticated {
     TResult? Function()? loading,
     TResult? Function(String message)? error,
     TResult? Function()? authenticated,
+    TResult? Function()? userInfo,
     TResult? Function(bool? isSignIn)? unauthenticated,
   }) {
     return unauthenticated?.call(isSignIn);
@@ -550,6 +696,7 @@ class _$UnauthenticatedImpl implements Unauthenticated {
     TResult Function()? loading,
     TResult Function(String message)? error,
     TResult Function()? authenticated,
+    TResult Function()? userInfo,
     TResult Function(bool? isSignIn)? unauthenticated,
     required TResult orElse(),
   }) {
@@ -565,6 +712,7 @@ class _$UnauthenticatedImpl implements Unauthenticated {
     required TResult Function(Loading value) loading,
     required TResult Function(Error value) error,
     required TResult Function(Authenticated value) authenticated,
+    required TResult Function(UserInfo value) userInfo,
     required TResult Function(Unauthenticated value) unauthenticated,
   }) {
     return unauthenticated(this);
@@ -576,6 +724,7 @@ class _$UnauthenticatedImpl implements Unauthenticated {
     TResult? Function(Loading value)? loading,
     TResult? Function(Error value)? error,
     TResult? Function(Authenticated value)? authenticated,
+    TResult? Function(UserInfo value)? userInfo,
     TResult? Function(Unauthenticated value)? unauthenticated,
   }) {
     return unauthenticated?.call(this);
@@ -587,6 +736,7 @@ class _$UnauthenticatedImpl implements Unauthenticated {
     TResult Function(Loading value)? loading,
     TResult Function(Error value)? error,
     TResult Function(Authenticated value)? authenticated,
+    TResult Function(UserInfo value)? userInfo,
     TResult Function(Unauthenticated value)? unauthenticated,
     required TResult orElse(),
   }) {

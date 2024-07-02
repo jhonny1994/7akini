@@ -15,36 +15,40 @@ class SignInScreen extends StatelessWidget {
     final isSmallScreen = context.width < 600;
 
     return Scaffold(
-      body: Center(
-        child: isSmallScreen
-            ? const SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AuthImage(
-                      imagePath: 'assets/sign-in.svg',
-                    ),
-                    Gap(kDefaultGap * 2),
-                    _FormContent(),
-                  ],
-                ),
-              )
-            : Container(
-                padding: kDefaultPadding * 2,
-                child: const Row(
-                  children: [
-                    Expanded(
-                      child: AuthImage(
+      body: SafeArea(
+        child: Center(
+          child: isSmallScreen
+              ? const SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AuthImage(
                         imagePath: 'assets/sign-in.svg',
+                        text: 'Sign in to 7akini!',
                       ),
-                    ),
-                    Gap(kDefaultGap * 2),
-                    Expanded(
-                      child: Center(child: _FormContent()),
-                    ),
-                  ],
+                      Gap(kDefaultGap * 2),
+                      _FormContent(),
+                    ],
+                  ),
+                )
+              : Container(
+                  padding: kDefaultPadding * 2,
+                  child: const Row(
+                    children: [
+                      Expanded(
+                        child: AuthImage(
+                          imagePath: 'assets/sign-in.svg',
+                          text: 'Sign in to 7akini!',
+                        ),
+                      ),
+                      Gap(kDefaultGap * 2),
+                      Expanded(
+                        child: Center(child: _FormContent()),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }
@@ -101,6 +105,8 @@ class __FormContentState extends ConsumerState<_FormContent> {
                 return null;
               },
               controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
               decoration: InputDecoration(
                 labelText: 'Email',
                 hintText: 'Enter your email',
@@ -109,7 +115,7 @@ class __FormContentState extends ConsumerState<_FormContent> {
                 enabledBorder: defaultBorder,
               ),
             ),
-            Gap(isSmallScreen ? kDefaultGap : kDefaultGap * 2),
+            Gap(isSmallScreen ? kDefaultGap * 2 : kDefaultGap * 4),
             TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -124,6 +130,8 @@ class __FormContentState extends ConsumerState<_FormContent> {
               },
               obscureText: !_isPasswordVisible,
               controller: _passwordController,
+              keyboardType: TextInputType.visiblePassword,
+              textInputAction: TextInputAction.done,
               decoration: InputDecoration(
                 labelText: 'Password',
                 hintText: 'Enter your password',
@@ -154,7 +162,8 @@ class __FormContentState extends ConsumerState<_FormContent> {
                   ),
                 ),
                 child: Padding(
-                  padding: kDefaultPadding * 1.5,
+                  padding:
+                      isSmallScreen ? kDefaultPadding : kDefaultPadding * 2,
                   child: const Text(
                     'Sign in',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -170,7 +179,7 @@ class __FormContentState extends ConsumerState<_FormContent> {
                 },
               ),
             ),
-            Gap(isSmallScreen ? kDefaultGap / 2 : kDefaultGap),
+            const Gap(kDefaultGap * 2),
             Text.rich(
               TextSpan(
                 text: "Don't have an account?  ",

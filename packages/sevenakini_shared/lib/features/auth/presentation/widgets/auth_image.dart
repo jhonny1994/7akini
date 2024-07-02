@@ -7,9 +7,11 @@ import 'package:sevenakini_shared/features/core/utils/extensions.dart';
 class AuthImage extends StatelessWidget {
   const AuthImage({
     required this.imagePath,
+    required this.text,
     super.key,
   });
   final String imagePath;
+  final String text;
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = context.width < 600;
@@ -18,7 +20,7 @@ class AuthImage extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          'Welcome to 7akini!',
+          text,
           textAlign: TextAlign.center,
           style: isSmallScreen
               ? Theme.of(context).textTheme.titleLarge

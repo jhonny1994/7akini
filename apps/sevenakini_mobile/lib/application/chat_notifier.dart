@@ -56,7 +56,7 @@ class ChatNotifier {
         (e) => e.map(Message.fromJson).toList(),
       );
   Stream<List<User>> getUsers() => _supabase
-      .from('users')
+      .from('members')
       .stream(primaryKey: ['id'])
       .neq('id', _user.id)
       .map((e) => e.map(User.fromJson).toList());

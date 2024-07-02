@@ -21,7 +21,6 @@ class Sevenakini extends ConsumerWidget {
               statusBarColor: Colors.transparent,
             ),
     );
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
@@ -34,6 +33,7 @@ class Sevenakini extends ConsumerWidget {
               unauthenticated: (isSignIn) =>
                   isSignIn! ? const SignInScreen() : const SignUpScreen(),
               error: (String message) => ErrorScreen(message: message),
+              userInfo: () => const UserInfoScreen(),
             )
           : const OnboardingScreen(),
     );

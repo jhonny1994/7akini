@@ -18,6 +18,7 @@ class MessageBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     var chatContents = <Widget>[
       CircleAvatar(
+        backgroundColor: context.colorScheme.primary,
         child: message.senderId != user.id
             ? CachedNetworkImage(imageUrl: user.imageUrl!)
             : Text(user.username.substring(0, 2)),
