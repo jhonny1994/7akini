@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  buildAndroid:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,18 +18,19 @@ jobs:
           flutter-version-file: pubspec.yaml
           cache: true
 
-      - name: Install dependencies
-        run: flutter pub get
+      - name: Set up Melos
+        uses: bluefireteam/melos-action@v3
 
       - name: Extract version from pubspec.yaml
         id: extract_version
         run: |
-          VERSION=$(grep -o 'version:.*' pubspec.yaml | awk '{print $2}')
+          VERSION=$(grep -o 'version:.*' apps/sevenakini_mobile/pubspec.yaml | awk '{print $2}')
           echo "version=${VERSION//\'/}" >> $GITHUB_ENV
 
       - name: Build Android APK
         uses: cedvdb/action-flutter-build-android@v1
         with:
+          working-directory: ./apps/sevenakini_mobile
           keystore-base64: ${{ secrets.ANDROID_RELEASE_KEY }}
           keystore-password: "${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }}"
 
@@ -37,13 +38,13 @@ jobs:
         uses: actions/upload-artifact@v4.3.3
         with:
           name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: apps/sevenakini_mobile/build/app/outputs/flutter-apk/app-release.apk
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.version }}
-          files: build/app/outputs/flutter-apk/app-release.apk
+          files: apps/sevenakini_mobile/build/app/outputs/flutter-apk/app-release.apk
           token: "${{ secrets.ACTIONS_TOKEN }}"
           fail_on_unmatched_files: true
           make_latest: true
