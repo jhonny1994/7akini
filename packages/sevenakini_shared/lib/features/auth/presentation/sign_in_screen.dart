@@ -2,66 +2,29 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
-import 'package:sevenakini_shared/features/auth/presentation/widgets/auth_image.dart';
-import 'package:sevenakini_shared/features/auth/providers/auth_state_notifier_provider.dart';
-import 'package:sevenakini_shared/features/core/utils/constants.dart';
-import 'package:sevenakini_shared/features/core/utils/extensions.dart';
+import 'package:sevenakini_shared/sevenakini_shared.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends ConsumerWidget {
   const SignInScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final isSmallScreen = context.width < 600;
-
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: isSmallScreen
-              ? const SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AuthImage(
-                        imagePath: 'assets/sign-in.svg',
-                        text: 'Sign in to 7akini!',
-                      ),
-                      Gap(kDefaultGap * 2),
-                      _FormContent(),
-                    ],
-                  ),
-                )
-              : Container(
-                  padding: kDefaultPadding * 2,
-                  child: const Row(
-                    children: [
-                      Expanded(
-                        child: AuthImage(
-                          imagePath: 'assets/sign-in.svg',
-                          text: 'Sign in to 7akini!',
-                        ),
-                      ),
-                      Gap(kDefaultGap * 2),
-                      Expanded(
-                        child: Center(child: _FormContent()),
-                      ),
-                    ],
-                  ),
-                ),
-        ),
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return const AuthBaseScreen(
+      imagePath: 'assets/sign-in.svg',
+      headerText: 'Sign in to 7akini!',
+      formContent: _SignInForm(),
     );
   }
 }
 
-class _FormContent extends ConsumerStatefulWidget {
-  const _FormContent();
+class _SignInForm extends ConsumerStatefulWidget {
+  const _SignInForm();
 
   @override
-  ConsumerState<_FormContent> createState() => __FormContentState();
+  ConsumerState<_SignInForm> createState() => __SignInFormState();
 }
 
-class __FormContentState extends ConsumerState<_FormContent> {
+class __SignInFormState extends ConsumerState<_SignInForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -69,136 +32,92 @@ class __FormContentState extends ConsumerState<_FormContent> {
 
   @override
   Widget build(BuildContext context) {
-    final isSmallScreen = context.width < 600;
-    final defaultBorder = OutlineInputBorder(
-      borderSide: BorderSide(
-        color: context.colorScheme.primary.withOpacity(0.25),
-      ),
-      borderRadius: const BorderRadius.all(
-        Radius.circular(kDefaultGap),
-      ),
-    );
-    return Container(
-      padding: kDefaultPadding,
-      constraints: BoxConstraints(
-        maxWidth: isSmallScreen ? context.width : context.width * 0.5,
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-
-                final emailValid = RegExp(
-                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                ).hasMatch(value);
-                if (!emailValid) {
-                  return 'Please enter a valid email';
-                }
-
-                return null;
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          AuthFormField(
+            controller: _emailController,
+            labelText: 'Email',
+            hintText: 'Enter your email',
+            prefixIcon: Icons.email_outlined,
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              final emailValid = RegExp(
+                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+              ).hasMatch(value);
+              if (!emailValid) {
+                return 'Please enter a valid email';
+              }
+              return null;
+            },
+          ),
+          const Gap(kDefaultGap * 2),
+          AuthFormField(
+            controller: _passwordController,
+            labelText: 'Password',
+            hintText: 'Enter your password',
+            prefixIcon: Icons.lock_outline_rounded,
+            obscureText: !_isPasswordVisible,
+            keyboardType: TextInputType.visiblePassword,
+            textInputAction: TextInputAction.done,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              final passwordValid =
+                  RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(value);
+              if (!passwordValid) {
+                return 'Password must be a mix of letters and numbers.';
+              }
+              return null;
+            },
+            suffixIcon: IconButton(
+              icon: Icon(
+                _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
               },
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                prefixIcon: const Icon(Icons.email_outlined),
-                border: defaultBorder,
-                enabledBorder: defaultBorder,
-              ),
             ),
-            Gap(isSmallScreen ? kDefaultGap * 2 : kDefaultGap * 4),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                final passwordValid =
-                    RegExp(r'^(?=.*?[a-z])(?=.*?[0-9]).{8,}$').hasMatch(value);
-                if (!passwordValid) {
-                  return 'Password must be a mix ofletters and numbers.';
-                }
-                return null;
-              },
-              obscureText: !_isPasswordVisible,
-              controller: _passwordController,
-              keyboardType: TextInputType.visiblePassword,
-              textInputAction: TextInputAction.done,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                prefixIcon: const Icon(Icons.lock_outline_rounded),
-                border: defaultBorder,
-                enabledBorder: defaultBorder,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _isPasswordVisible
-                        ? Icons.visibility_off
-                        : Icons.visibility,
+          ),
+          const Gap(kDefaultGap * 2),
+          SubmitButton(
+            text: 'Sign in',
+            onPressed: () async {
+              if (_formKey.currentState?.validate() ?? false) {
+                await ref.read(authStateNotifierProvider.notifier).signIn(
+                      _emailController.text.trim(),
+                      _passwordController.text.trim(),
+                    );
+              }
+            },
+          ),
+          const Gap(kDefaultGap * 2),
+          Text.rich(
+            TextSpan(
+              text: "Don't have an account?  ",
+              children: [
+                TextSpan(
+                  text: 'Sign up',
+                  style: context.textTheme.bodySmall!.copyWith(
+                    color: context.colorScheme.primary,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      _isPasswordVisible = !_isPasswordVisible;
-                    });
-                  },
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => ref
+                        .read(authStateNotifierProvider.notifier)
+                        .checkAndUpdateState(isSignIn: false),
                 ),
-              ),
+              ],
             ),
-            Gap(isSmallScreen ? kDefaultGap * 2 : kDefaultGap * 4),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(kDefaultGap * 2),
-                  ),
-                ),
-                child: Padding(
-                  padding:
-                      isSmallScreen ? kDefaultPadding : kDefaultPadding * 2,
-                  child: const Text(
-                    'Sign in',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                onPressed: () async {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    await ref.read(authStateNotifierProvider.notifier).signIn(
-                          _emailController.text.trim(),
-                          _passwordController.text.trim(),
-                        );
-                  }
-                },
-              ),
-            ),
-            const Gap(kDefaultGap * 2),
-            Text.rich(
-              TextSpan(
-                text: "Don't have an account?  ",
-                children: [
-                  TextSpan(
-                    text: 'Sign up',
-                    style: context.textTheme.bodySmall!.copyWith(
-                      color: context.colorScheme.primary,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () => ref
-                          .read(authStateNotifierProvider.notifier)
-                          .checkAndUpdateState(isSignIn: false),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

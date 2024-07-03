@@ -1,7 +1,18 @@
-import 'package:sevenakini_shared/features/chat/domain/message.dart';
-import 'package:sevenakini_shared/features/core/domain/app_response.dart';
+import 'package:sevenakini_shared/sevenakini_shared.dart';
 
 abstract class ChatRepository {
-  Future<AppResponse> addMessage(Message message);
-  Stream<List<Message>> getChatMessages(String chatId);
+  Future<void> sendMessage(
+    String senderId,
+    String receiverId,
+    String content,
+    String chatId,
+  );
+  Future<String> getChatId(
+    String senderId,
+    String receiverId,
+  );
+
+  Stream<List<Message>> getChat(String chatId);
+
+  Stream<List<User>> getUsers();
 }

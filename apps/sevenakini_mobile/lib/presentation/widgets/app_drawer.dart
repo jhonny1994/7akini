@@ -12,7 +12,7 @@ class AppDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.read(authStateNotifierProvider.notifier).user;
+    final user = ref.read(userProvider);
     return Drawer(
       width: context.width * 0.66,
       child: SafeArea(

@@ -4,14 +4,12 @@ import 'package:gap/gap.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:sevenakini_mobile/presentation/widgets/circle_avatar_with_dot.dart';
 import 'package:sevenakini_mobile/presentation/widgets/message_bubble.dart';
-import 'package:sevenakini_mobile/providers/chat_notifier_provider.dart';
-import 'package:sevenakini_mobile/providers/messages_stream_provider.dart';
 import 'package:sevenakini_shared/sevenakini_shared.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen(this.user, this.chatId, {super.key});
-  final String chatId;
 
+  final String chatId;
   final User user;
 
   @override
@@ -21,7 +19,22 @@ class ChatScreen extends ConsumerStatefulWidget {
 class _ChatScreenState extends ConsumerState<ChatScreen> {
   final contentController = TextEditingController();
   final formkey = GlobalKey<FormState>();
+
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void scrollToBottom() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -140,20 +153,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           loading: () => const LoadingScreen(),
         ),
       ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void scrollToBottom() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOut,
     );
   }
 }

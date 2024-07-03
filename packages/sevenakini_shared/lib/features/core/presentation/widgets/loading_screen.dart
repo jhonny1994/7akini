@@ -4,8 +4,11 @@ import 'package:sevenakini_shared/features/core/utils/constants.dart';
 import 'package:sevenakini_shared/features/core/utils/extensions.dart';
 
 class LoadingScreen extends StatelessWidget {
-  const LoadingScreen({super.key});
-
+  const LoadingScreen({
+    super.key,
+    this.isSimple = false,
+  });
+  final bool isSimple;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,21 +16,27 @@ class LoadingScreen extends StatelessWidget {
         child: Padding(
           padding: kDefaultPadding,
           child: Center(
-            child: Column(
-              children: [
-                const Spacer(flex: 2),
-                SizedBox(
-                  height: context.width * 0.75 - kDefaultPadding.horizontal,
-                  width: context.width * 0.75 - kDefaultPadding.horizontal,
-                  child: SvgPicture.asset('assets/loading.svg'),
-                ),
-                const Spacer(),
-                CircularProgressIndicator.adaptive(
-                  backgroundColor: context.colorScheme.primary,
-                ),
-                const Spacer(flex: 2),
-              ],
-            ),
+            child: isSimple
+                ? CircularProgressIndicator.adaptive(
+                    backgroundColor: context.colorScheme.primary,
+                  )
+                : Column(
+                    children: [
+                      const Spacer(flex: 2),
+                      SizedBox(
+                        height:
+                            context.width * 0.75 - kDefaultPadding.horizontal,
+                        width:
+                            context.width * 0.75 - kDefaultPadding.horizontal,
+                        child: SvgPicture.asset('assets/loading.svg'),
+                      ),
+                      const Spacer(),
+                      CircularProgressIndicator.adaptive(
+                        backgroundColor: context.colorScheme.primary,
+                      ),
+                      const Spacer(flex: 2),
+                    ],
+                  ),
           ),
         ),
       ),
